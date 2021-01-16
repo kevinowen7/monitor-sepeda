@@ -51,7 +51,6 @@ class _MapPageState extends State<MapPage> {
     Timer.periodic(new Duration(seconds: 5), (timer) {
       _markers.clear();
       setMapPins();
-      print("a");
     });
   }
 

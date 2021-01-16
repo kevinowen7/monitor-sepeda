@@ -32,11 +32,18 @@ dependencies:
   geolocator: 3.0.0               # AndroidX - Breaking!
   google_api_availability: 1.0.6  # Geolocator Dependency.
   flutter_polyline_points: ^0.1.0
+
   
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: "^0.7.3"
 
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path_ios: "assets/images/Logo bikem.png"
+  image_path_android: "assets/images/Logo bikem.png"
 
 flutter:
   uses-material-design: true
