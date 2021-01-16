@@ -49,7 +49,7 @@ class Akun extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Expanded(
-                        flex: 1,
+                        flex: 3,
                         child: Text(
                           'Name',
                           textAlign: TextAlign.start,
@@ -62,9 +62,21 @@ class Akun extends StatelessWidget {
                       ),
                       SizedBox(width: 20),
                       Expanded(
-                        flex: 3,
+                          flex: 1,
+                          child: Text(
+                            ":",
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              color: LightColors.kDarkBlue,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          )
+                      ),
+                      Expanded(
+                        flex: 8,
                         child: Text(
-                          ': '+FirebaseDBCustom.userdisplayName,
+                          FirebaseDBCustom.userdisplayName,
                           textAlign: TextAlign.start,
                           style: TextStyle(
                             fontSize: 14.0,
@@ -80,7 +92,7 @@ class Akun extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Expanded(
-                          flex: 1,
+                          flex: 3,
                           child: Text(
                             'Device ID',
                             textAlign: TextAlign.start,
@@ -93,9 +105,21 @@ class Akun extends StatelessWidget {
                       ),
                       SizedBox(width: 20),
                       Expanded(
-                          flex: 3,
+                          flex: 1,
                           child: Text(
-                            ': '+FirebaseDBCustom.deviceId,
+                            ":",
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              color: LightColors.kDarkBlue,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          )
+                      ),
+                      Expanded(
+                          flex: 8,
+                          child: Text(
+                            FirebaseDBCustom.deviceId,
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 14.0,
@@ -111,7 +135,7 @@ class Akun extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Expanded(
-                          flex: 1,
+                          flex: 3,
                           child: Text(
                             'Email',
                             textAlign: TextAlign.start,
@@ -124,9 +148,21 @@ class Akun extends StatelessWidget {
                       ),
                       SizedBox(width: 20),
                       Expanded(
-                          flex: 3,
+                          flex: 1,
                           child: Text(
-                            ': '+FirebaseDBCustom.userEmail,
+                            ":",
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              color: LightColors.kDarkBlue,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          )
+                      ),
+                      Expanded(
+                          flex: 8,
+                          child: Text(
+                            FirebaseDBCustom.userEmail,
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 14.0,

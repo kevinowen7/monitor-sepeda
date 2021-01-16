@@ -39,6 +39,12 @@ class Login extends StatelessWidget {
       Icons.keyboard_arrow_down,
       color: Colors.black54,
     );
+
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+
     return WillPopScope(
       onWillPop: onWillPop,
       child: Scaffold(

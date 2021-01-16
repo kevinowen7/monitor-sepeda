@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:bezier_chart/bezier_chart.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_task_planner_app/db/firebase-db.dart';
 import 'package:flutter_task_planner_app/screens/calendar_page.dart';
@@ -44,10 +47,58 @@ class _HomePageState extends State<HomePage> {
   String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
   static final databaseReference = FirebaseDatabase.instance.reference();
 
+  var firebaseMessaging = FirebaseMessaging();
+
+  bool isSubscribed = false;
+  String token = '';
+  String dataName = '';
+  String dataAge = '';
+
+
+  static Future<dynamic> onBackgroundMessage(Map<String, dynamic> message) async {
+    debugPrint('onBackgroundMessage: $message');
+    if (message.containsKey('data')) {
+      String name = '';
+      String age = '';
+      if (Platform.isIOS) {
+        name = message['name'];
+        age = message['age'];
+      } else if (Platform.isAndroid) {
+        var data = message['data'];
+        name = data['name'];
+        age = data['age'];
+      }
+      debugPrint('onBackgroundMessage: name: $name & age: $age');
+    }
+    return null;
+  }
+
   @override
   void initState() {
     super.initState();
     requestPermission();
+    firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        getDataFcm(message);
+      },
+      onResume: (Map<String, dynamic> message) async {
+        getDataFcm(message);
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        getDataFcm(message);
+      },
+    );
+    firebaseMessaging.requestNotificationPermissions(
+      const IosNotificationSettings(sound: true, badge: true, alert: true),
+    );
+    firebaseMessaging.onIosSettingsRegistered.listen((settings) {
+      debugPrint('Settings registered: $settings');
+    });
+    firebaseMessaging.getToken().then((tokenData) {
+      token = tokenData;
+      print(token);
+    });
+
   }
   @override
   Widget build(BuildContext context) {
@@ -280,5 +331,23 @@ class _HomePageState extends State<HomePage> {
       message += '${permission.permissionName}: ${permission.permissionStatus}\n';
     });
     setState(() {});
+  }
+
+  void getDataFcm(Map<String, dynamic> message) {
+    String name = '';
+    String age = '';
+    if (Platform.isIOS) {
+      name = message['name'];
+      age = message['age'];
+    } else if (Platform.isAndroid) {
+      var data = message['data'];
+      name = data['name'];
+      age = data['age'];
+    }
+    if (name.isNotEmpty && age.isNotEmpty) {
+      dataName = name;
+      dataAge = age;
+    }
+    print("nama");
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_task_planner_app/screens/home.dart';
 import 'package:flutter_task_planner_app/screens/login.dart';
 import 'package:flutter_task_planner_app/theme/colors/light_colors.dart';
@@ -26,6 +27,11 @@ class Register extends StatelessWidget {
       Icons.keyboard_arrow_down,
       color: Colors.black54,
     );
+
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
 
     return Scaffold(
       backgroundColor: LightColors.kLightGreen,
