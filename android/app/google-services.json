@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "514241089631",
+    "project_id": "monitor-sepeda",
+    "storage_bucket": "monitor-sepeda.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:514241089631:android:29279b21e246a83275cbea",
+        "android_client_info": {
+          "package_name": "com.example.flutter_task_planner_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "514241089631-c21cu6btdjh48vn907i48fvprmr4vssn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJhG5LnJtWwgUrck99N1TV7QFo18pSRxo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "514241089631-c21cu6btdjh48vn907i48fvprmr4vssn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "514241089631-gfegqlsu595mq9tq02itbah8mvh6cppd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.monitorsepeda"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
