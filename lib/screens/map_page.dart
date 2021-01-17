@@ -16,6 +16,7 @@ class MapPage extends StatefulWidget {
 }
 class _MapPageState extends State<MapPage> {
   Completer<GoogleMapController> _controller = Completer();
+  GoogleMapController mapController;
 
   LatLng _center ;
   Position currentLocation;
@@ -48,6 +49,7 @@ class _MapPageState extends State<MapPage> {
     getUserLocation();
 
     //update current location
+
     Timer.periodic(new Duration(seconds: 5), (timer) {
       _markers.clear();
       setMapPins();
@@ -61,7 +63,10 @@ class _MapPageState extends State<MapPage> {
       return Scaffold(
         body:
         SafeArea(
-          child: StreamBuilder(
+          child:
+          Stack(
+              children: <Widget>[
+                StreamBuilder(
             stream: FirebaseDBCustom.databaseReference.child(FirebaseDBCustom.deviceId.toString()+"/location").onValue,
             builder: (context, snap) {
               if (snap.hasData && !snap.hasError && snap.data.snapshot.value != null) {
@@ -95,18 +100,34 @@ class _MapPageState extends State<MapPage> {
                 polylines: _polylines,
                 onMapCreated: (GoogleMapController controller) {
                   _controller.complete(controller);
+                  mapController = controller;
                   setMapPins();
                 },
               );
             },
           ),
+                Positioned(
+                  left: 10,
+                  bottom: 30,
+                  child: FloatingActionButton.extended(
+                    onPressed: focusCameraPosition,
+                    label: Text('Track My Bike'),
+                    icon: Icon(Icons.bike_scooter),
+                  ),
+                ),
+                Positioned(
+                  right: 10,
+                  top: 20,
+                  child: FloatingActionButton.extended(
+                    onPressed: focusCameraCurrentPosition,
+                    backgroundColor: Colors.green,
+                    label: Text('Track My Location'),
+                    icon: Icon(Icons.supervised_user_circle),
+                  ),
+                ),
+              ]
+          ),
         ),
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: null,
-          label: Text('Track My Bike'),
-          icon: Icon(Icons.bike_scooter),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       );
     }
   }
@@ -186,5 +207,19 @@ class _MapPageState extends State<MapPage> {
     });
   }
    */
+
+  void focusCameraPosition() {
+    mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+      target: LatLng(lat, long),
+      zoom: 18,
+    )));
+  }
+
+  void focusCameraCurrentPosition() {
+    mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+      target: LatLng(_center.latitude, _center.longitude),
+      zoom: 18,
+    )));
+  }
 }
 
