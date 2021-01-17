@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:app_settings/app_settings.dart';
 import 'package:bezier_chart/bezier_chart.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -7,7 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_task_planner_app/db/firebase-db.dart';
 import 'package:flutter_task_planner_app/screens/calendar_page.dart';
 import 'package:flutter_task_planner_app/theme/colors/light_colors.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:flutter_task_planner_app/widgets/task_column.dart';
 import 'package:flutter_task_planner_app/widgets/active_project_card.dart';
@@ -39,15 +42,15 @@ class HomePage extends StatefulWidget {
       ),
     );
   }
+
   @override
-  _HomePageState createState() => _HomePageState();
+    _HomePageState createState() => _HomePageState();
 }
+
 class _HomePageState extends State<HomePage> {
   List<DataPoint<dynamic>> dataPemakaian;
   String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
   static final databaseReference = FirebaseDatabase.instance.reference();
-
-  var firebaseMessaging = FirebaseMessaging();
 
   bool isSubscribed = false;
   String token = '';
@@ -55,48 +58,55 @@ class _HomePageState extends State<HomePage> {
   String dataAge = '';
 
 
-  static Future<dynamic> onBackgroundMessage(Map<String, dynamic> message) async {
-    debugPrint('onBackgroundMessage: $message');
-    if (message.containsKey('data')) {
-      String name = '';
-      String age = '';
-      if (Platform.isIOS) {
-        name = message['name'];
-        age = message['age'];
-      } else if (Platform.isAndroid) {
-        var data = message['data'];
-        name = data['name'];
-        age = data['age'];
-      }
-      debugPrint('onBackgroundMessage: name: $name & age: $age');
-    }
-    return null;
-  }
-
   @override
   void initState() {
     super.initState();
     requestPermission();
-    firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        getDataFcm(message);
-      },
-      onResume: (Map<String, dynamic> message) async {
-        getDataFcm(message);
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        getDataFcm(message);
-      },
-    );
-    firebaseMessaging.requestNotificationPermissions(
-      const IosNotificationSettings(sound: true, badge: true, alert: true),
-    );
-    firebaseMessaging.onIosSettingsRegistered.listen((settings) {
-      debugPrint('Settings registered: $settings');
+
+    FirebaseMessaging.instance.getToken().then((value){
+      FirebaseDBCustom.setTokenDevice(value);
     });
-    firebaseMessaging.getToken().then((tokenData) {
-      token = tokenData;
-      print(token);
+
+
+    FirebaseMessaging.instance
+        .getInitialMessage()
+        .then((RemoteMessage message) {
+      if (message != null) {
+      }
+    });
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification notification = message.notification;
+      AndroidNotification android = message.notification?.android;
+      if (notification != null && android != null) {
+        print(context.toString());
+        showOverlayNotification((context) {
+          return Card(
+            margin: const EdgeInsets.symmetric(horizontal: 4),
+            child: SafeArea(
+              child: ListTile(
+                leading: SizedBox.fromSize(
+                    size: const Size(40, 40),
+                    child: ClipOval(
+                        child: Container(
+                          child: Image.asset('assets/images/Logo bikem.png',width: 160,),
+                        ))),
+                title: Text(notification.title),
+                subtitle: Text(notification.body),
+                trailing: IconButton(
+                    icon: Icon(Icons.close),
+                    onPressed: () {
+                      OverlaySupportEntry.of(context).dismiss();
+                    }),
+              ),
+            ),
+          );
+        }, duration: Duration(milliseconds: 4000));
+      }
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print('A new onMessageOpenedApp event was published!');
     });
 
   }
@@ -317,9 +327,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Future<List<DataPoint<dynamic>>> _getBulkDataPemakaian() async {
-    return await FirebaseDBCustom.getBulkDataPemakaian();
-  }
   Future<void> requestPermission() async {
     List<PermissionName> permissionNames = [];
     permissionNames.add(PermissionName.Location);
@@ -331,23 +338,5 @@ class _HomePageState extends State<HomePage> {
       message += '${permission.permissionName}: ${permission.permissionStatus}\n';
     });
     setState(() {});
-  }
-
-  void getDataFcm(Map<String, dynamic> message) {
-    String name = '';
-    String age = '';
-    if (Platform.isIOS) {
-      name = message['name'];
-      age = message['age'];
-    } else if (Platform.isAndroid) {
-      var data = message['data'];
-      name = data['name'];
-      age = data['age'];
-    }
-    if (name.isNotEmpty && age.isNotEmpty) {
-      dataName = name;
-      dataAge = age;
-    }
-    print("nama");
   }
 }

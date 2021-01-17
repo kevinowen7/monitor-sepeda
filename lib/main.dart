@@ -9,6 +9,7 @@ import 'package:flutter_task_planner_app/db/firebase-db.dart';
 import 'package:flutter_task_planner_app/theme/colors/light_colors.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:overlay_support/overlay_support.dart';
 
 
 Future<void> main() async {
@@ -31,7 +32,8 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    return MaterialApp(
+    return OverlaySupport(
+        child: MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -44,7 +46,8 @@ class MyApp extends StatelessWidget {
       home: SplashScreen()
       ,
       debugShowCheckedModeBanner: false,
-    );
+    ),
+      );
   }
 
   void openLoadingToNewPage(context,page,type,payload) {

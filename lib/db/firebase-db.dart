@@ -169,4 +169,10 @@ class FirebaseDBCustom {
     return "1";
   }
 
+  static void setTokenDevice(String token) {
+    databaseReference.child(deviceId).update({
+      'token':token
+    });
+  }
+
 }

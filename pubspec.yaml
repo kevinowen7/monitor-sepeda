@@ -28,10 +28,12 @@ dependencies:
   # For example, to use Firebase Authentication and Cloud Firestore
   firebase_auth: ^0.20.0+1
   firebase_database: ^6.0.0
-  firebase_messaging: ^5.0.0
+  firebase_messaging: ^8.0.0-dev.14
   geolocator: 3.0.0               # AndroidX - Breaking!
   google_api_availability: 1.0.6  # Geolocator Dependency.
   flutter_polyline_points: ^0.1.0
+  overlay_support: ^1.0.5
+  app_settings: ^4.0.4
 
   
 dev_dependencies:
