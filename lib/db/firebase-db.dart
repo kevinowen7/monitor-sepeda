@@ -19,7 +19,7 @@ class FirebaseDBCustom {
   static String deviceId;
   static String userEmail;
   static String userdisplayName;
-  static String diameter;
+  static String diameter = "0";
 
 
   static Future<String> createNewUser(email,password,device_id,device_password) async {
