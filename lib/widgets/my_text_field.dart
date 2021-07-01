@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 
 class MyTextField extends StatelessWidget {
   final String label;
+  final String initialValue;
   final int maxLines;
   final int minLines;
   final bool obscureText;
   final Icon icon;
   final TextEditingController  controller;
-  MyTextField({this.label, this.maxLines = 1, this.minLines = 1, this.obscureText = false, this.icon, this.controller});
+  MyTextField({this.label, this.maxLines = 1, this.minLines = 1, this.obscureText = false, this.icon, this.controller, this.initialValue});
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +19,7 @@ class MyTextField extends StatelessWidget {
       maxLines: maxLines,
       controller: controller,
       obscureText: obscureText,
+      initialValue: initialValue,
       validator: (value) {
         if (value.isEmpty) {
           return 'Silahkan isi kolom';

@@ -10,6 +10,9 @@ import 'package:flutter_task_planner_app/screens/home_page.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class Akun extends StatelessWidget {
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController banController = new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -168,6 +171,46 @@ class Akun extends StatelessWidget {
                               fontSize: 14.0,
                               color: LightColors.kDarkBlue,
                               fontWeight: FontWeight.w500,
+                            ),
+                          )
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 25),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Expanded(
+                          flex: 8,
+                          child: MyTextField (
+                            label: 'Diameter Ban',
+                            controller: banController,
+                            initialValue:FirebaseDBCustom.diameter
+                          ),
+                      ),
+                      SizedBox(width: 20),
+                      Expanded(
+                          flex: 4,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              FirebaseDBCustom.setBan(banController.text);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              primary: LightColors.kLightBlue,
+                              onPrimary: Colors.white,
+                              onSurface: Colors.grey,
+                              padding: const EdgeInsets.fromLTRB(20,10,20,10),
+                              minimumSize: Size(width-40, 80),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(40.0),
+                              ),
+                            ),
+                            child: Text(
+                              'Ubah',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 18),
                             ),
                           )
                       ),
