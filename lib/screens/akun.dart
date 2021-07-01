@@ -15,6 +15,7 @@ class Akun extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    banController.text = FirebaseDBCustom.diameter;
     double width = MediaQuery.of(context).size.width;
     var downwardIcon = Icon(
       Icons.keyboard_arrow_down,
@@ -184,8 +185,7 @@ class Akun extends StatelessWidget {
                           flex: 8,
                           child: MyTextField (
                             label: 'Diameter Ban',
-                            controller: banController,
-                            initialValue:FirebaseDBCustom.diameter
+                            controller: banController
                           ),
                       ),
                       SizedBox(width: 20),
