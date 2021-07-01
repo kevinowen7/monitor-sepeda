@@ -15,7 +15,6 @@ class Akun extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    banController.text = FirebaseDBCustom.diameter;
     double width = MediaQuery.of(context).size.width;
     var downwardIcon = Icon(
       Icons.keyboard_arrow_down,
