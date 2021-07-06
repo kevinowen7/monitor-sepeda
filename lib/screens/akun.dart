@@ -9,18 +9,15 @@ import 'package:flutter_task_planner_app/widgets/my_text_field.dart';
 import 'package:flutter_task_planner_app/screens/home_page.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+final _formKey = GlobalKey<FormState>();
+
 class Akun extends StatelessWidget {
-  final _formKey = GlobalKey<FormState>();
   TextEditingController banController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    banController.text = FirebaseDBCustom.diameter;
-    var downwardIcon = Icon(
-      Icons.keyboard_arrow_down,
-      color: Colors.black54,
-    );
+    banController.text = FirebaseDBCustom.diameter + " inch";
     return Scaffold(
       backgroundColor: LightColors.kLightGreen,
       body: SafeArea(
@@ -182,31 +179,95 @@ class Akun extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Expanded(
-                          flex: 8,
-                          child: MyTextField (
-                            label: 'Diameter Ban',
-                            controller: banController
-                          ),
+                          flex: 2,
+                          child: Text(
+                            'Diameter Ban',
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              color: LightColors.kDarkBlue,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          )
                       ),
                       SizedBox(width: 20),
                       Expanded(
-                          flex: 4,
+                          flex: 1,
+                          child: Text(
+                            ":",
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              color: LightColors.kDarkBlue,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          )
+                      ),
+                      Expanded(
+                          flex: 2,
+                          child: TextField(
+                            controller: banController,
+                            decoration: InputDecoration(hintText: "Diameter Ban"),
+                              enabled: false
+                          ),
+                      ),
+                      Expanded(
+                          flex: 1,
                           child: ElevatedButton(
                             onPressed: () {
-                              FirebaseDBCustom.setBan(banController.text);
+                              var data = banController.text;
+                              var parts = data.split(' inch');
+                              var number = int.parse(parts[0].trim()) - 1;
+                              if (number < 1){
+                                number = 0;
+                              }
+                              FirebaseDBCustom.setBan(number.toString());
+                              banController.text = number.toString()+" inch";
+                              FirebaseDBCustom.diameter = number.toString();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              primary: LightColors.kRed,
+                              onPrimary: Colors.white,
+                              onSurface: Colors.grey,
+                              padding: const EdgeInsets.fromLTRB(20,10,20,10),
+                              minimumSize: Size(width-40, 20),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                            ),
+                            child: Text(
+                              '-',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 18),
+                            ),
+                          )
+                      ),
+                      SizedBox(width: 20),
+                      Expanded(
+                          flex: 1,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              var data = banController.text;
+                              var parts = data.split(' inch');
+                              var number = int.parse(parts[0].trim()) + 1;
+                              FirebaseDBCustom.setBan(number.toString());
+                              banController.text = number.toString()+" inch";
+                              FirebaseDBCustom.diameter = number.toString();
                             },
                             style: ElevatedButton.styleFrom(
                               primary: LightColors.kLightBlue,
                               onPrimary: Colors.white,
                               onSurface: Colors.grey,
                               padding: const EdgeInsets.fromLTRB(20,10,20,10),
-                              minimumSize: Size(width-40, 80),
+                              minimumSize: Size(width-40, 20),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(40.0),
+                                borderRadius: BorderRadius.circular(10.0),
                               ),
                             ),
                             child: Text(
-                              'Ubah',
+                              '+',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w700,

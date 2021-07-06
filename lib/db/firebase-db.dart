@@ -19,7 +19,7 @@ class FirebaseDBCustom {
   static String deviceId;
   static String userEmail;
   static String userdisplayName;
-  static String diameter = "0";
+  static String diameter = "123";
 
 
   static Future<String> createNewUser(email,password,device_id,device_password) async {
@@ -111,7 +111,7 @@ class FirebaseDBCustom {
             deviceId = device_id;
             userEmail = user.email;
             userdisplayName = user.email.split("@")[0];
-            diameter = data['diameter'];
+            diameter = data.values.toList()[0]["diameter"].toString();
           }
           //move page
           _progressDialog.dismissProgressDialog(context);
@@ -179,7 +179,7 @@ class FirebaseDBCustom {
 
   static void setBan(String data) {
     databaseReference.child(deviceId).update({
-      'diameter':data
+      'diameter':data.toString()
     });
   }
 
